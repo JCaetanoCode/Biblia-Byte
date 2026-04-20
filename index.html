@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Bíblia Byte - Múltiplas Versões</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .controles {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        select, input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #2c3e50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1a252f;
+        }
+        .versiculo {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .versiculo strong {
+            color: #2c3e50;
+            font-size: 20px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .versao {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .erro {
+            background: #ffe0e0;
+            color: #c0392b;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .sucesso {
+            background: #e0ffe0;
+            color: #27ae60;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .loading {
+            background: #e0e0ff;
+            color: #2c3e50;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📖 Bíblia Byte</h1>
+
+    <div class="controles">
+        <label>📚 Versão:</label>
+        <select id="versao">
+            <option value="acf">ACF (Almeida Corrigida Fiel)</option>
+            <option value="aa">AA (Almeida Revista)</option>
+            <option value="nvi">NVI (Nova Versão Internacional)</option>
+        </select>
+
+        <label>📚 Livro:</label>
+        <select id="livro"></select>
+
+        <label>📖 Capítulo:</label>
+        <input type="number" id="capitulo" value="1" min="1">
+
+        <label>🔢 Versículo:</label>
+        <input type="number" id="versiculo" value="1" min="1">
+
+        <br>
+        <button onclick="buscarVersiculo()">🔍 Buscar Versículo</button>
+    </div>
+
+    <div id="resultado">
+        <div class="loading">⏳ Selecione uma versão e clique em buscar...</div>
+    </div>
+
+    <script>
+        let bibliaAtual = null;
+        let versaoAtual = 'acf';
+
+        // Carregar a versão selecionada
+        function carregarVersao(versao) {
+            document.getElementById('resultado').innerHTML = '<div class="loading">⏳ Carregando ' + versao.toUpperCase() + '...</div>';
+            
+            fetch(`${versao}.json`)
+                .then(resposta => {
+                    if (!resposta.ok) {
+                        throw new Error(`Arquivo ${versao}.json não encontrado`);
+                    }
+                    return resposta.json();
+                })
+                .then(dados => {
+                    bibliaAtual = dados;
+                    versaoAtual = versao;
+                    preencherListaLivros();
+                    document.getElementById('resultado').innerHTML = '<div class="sucesso">✅ ' + getNomeVersao(versao) + ' carregada! Selecione um livro e clique em buscar.</div>';
+                    console.log(`${versao} carregada:`, dados.length, 'livros');
+                })
+                .catch(erro => {
+                    console.error('Erro:', erro);
+                    document.getElementById('resultado').innerHTML = `<div class="erro">❌ Erro ao carregar ${versao}.json<br>Verifique se o arquivo está na mesma pasta do HTML.</div>`;
+                    bibliaAtual = null;
+                });
+        }
+
+        function getNomeVersao(versao) {
+            const nomes = {
+                'acf': 'ACF (Almeida Corrigida Fiel)',
+                'aa': 'AA (Almeida Revista)',
+                'nvi': 'NVI (Nova Versão Internacional)'
+            };
+            return nomes[versao] || versao.toUpperCase();
+        }
+
+        function preencherListaLivros() {
+            if (!bibliaAtual) return;
+            
+            const selectLivro = document.getElementById('livro');
+            selectLivro.innerHTML = '';
+            
+            bibliaAtual.forEach((livro, indice) => {
+                const option = document.createElement('option');
+                option.value = indice;
+                const nomeLivro = livro.nome || livro.name || livro.book || `Livro ${indice + 1}`;
+                option.textContent = nomeLivro;
+                selectLivro.appendChild(option);
+            });
+        }
+
+        function buscarVersiculo() {
+            if (!bibliaAtual) {
+                document.getElementById('resultado').innerHTML = '<div class="erro">⏳ Carregue uma versão primeiro.</div>';
+                return;
+            }
+
+            const indiceLivro = parseInt(document.getElementById('livro').value);
+            const capitulo = parseInt(document.getElementById('capitulo').value);
+            const versiculo = parseInt(document.getElementById('versiculo').value);
+
+            const livro = bibliaAtual[indiceLivro];
+            
+            if (!livro) {
+                document.getElementById('resultado').innerHTML = '<div class="erro">Livro não encontrado.</div>';
+                return;
+            }
+
+            const nomeLivro = livro.nome || livro.name || livro.book;
+            const capitulos = livro.capitulos || livro.chapters;
+            
+            if (!capitulos || capitulo > capitulos.length || capitulo < 1) {
+                document.getElementById('resultado').innerHTML = `<div class="erro">O livro ${nomeLivro} não possui o capítulo ${capitulo}.</div>`;
+                return;
+            }
+
+            const versiculos = capitulos[capitulo - 1];
+            
+            if (!versiculos || versiculo > versiculos.length || versiculo < 1) {
+                document.getElementById('resultado').innerHTML = `<div class="erro">O capítulo ${capitulo} de ${nomeLivro} não possui o versículo ${versiculo}.</div>`;
+                return;
+            }
+
+            const textoVersiculo = versiculos[versiculo - 1];
+            
+            // Buscar também nas outras versões para comparar (opcional)
+            document.getElementById('resultado').innerHTML = `
+                <div class="versiculo">
+                    <strong>${nomeLivro} ${capitulo}:${versiculo}</strong>
+                    ${textoVersiculo}
+                    <div class="versao">${getNomeVersao(versaoAtual)}</div>
+                </div>
+            `;
+        }
+
+        // Evento quando mudar a versão no select
+        document.getElementById('versao').addEventListener('change', function() {
+            carregarVersao(this.value);
+        });
+
+        // Carregar versão inicial (ACF)
+        carregarVersao('acf');
+    </script>
+
+</body>
+</html>
