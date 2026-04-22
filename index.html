@@ -2,9 +2,10 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Bíblia Byte - Múltiplas Versões com Pesquisa</title>
     <style>
+        /* ===== ESTILOS BASE (DESKTOP) ===== */
         body {
             font-family: Arial, Helvetica, sans-serif;
             max-width: 900px;
@@ -52,7 +53,7 @@
             display: block;
         }
         
-        /* ===== NOVOS ESTILOS PARA CAMPOS COMPACTOS ===== */
+        /* Campos compactos */
         .linha-controle {
             display: flex;
             flex-wrap: wrap;
@@ -97,6 +98,14 @@
             padding: 8px 16px;
             margin: 0;
             font-size: 14px;
+            background-color: #2c3e50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #1a252f;
         }
         .btn-ler {
             background-color: #27ae60;
@@ -105,7 +114,6 @@
         .btn-ler:hover {
             background-color: #229954;
         }
-        /* ============================================= */
 
         .pesquisa-container {
             display: flex;
@@ -118,6 +126,8 @@
             flex: 2;
             min-width: 200px;
             padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         .resultados-pesquisa {
             margin-top: 15px;
@@ -179,10 +189,6 @@
         .capitulo-nav {
             display: flex;
             gap: 10px;
-        }
-        .capitulo-nav button {
-            padding: 8px 15px;
-            font-size: 14px;
         }
         .versiculo-lista {
             font-size: 16px;
@@ -262,18 +268,215 @@
             font-weight: bold;
             display: inline-block;
         }
-        
-        /* Responsividade para telas pequenas */
+
+        /* ===== ESTILOS MOBILE (MANTÉM DESKTOP INTACTO) ===== */
         @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 22px;
+                margin: 10px 0;
+            }
+            
+            .controles {
+                padding: 15px;
+            }
+            
+            /* Abas maiores para toque */
+            .tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px 10px;
+                font-size: 16px;
+            }
+            
+            /* Linha de controle em coluna no mobile */
             .linha-controle {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 12px;
             }
-            .grupo-campo {
-                justify-content: space-between;
+            
+            /* Campos ocupam largura total */
+            .campo-pequeno {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px; /* Evita zoom automático no iOS */
             }
+            
             .campo-medio {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            select {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            /* Grupo de campo em coluna */
+            .grupo-campo {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+                width: 100%;
+            }
+            
+            .grupo-campo label {
+                font-size: 15px;
+                margin-bottom: 3px;
+            }
+            
+            /* Botões maiores para toque */
+            button {
+                padding: 14px 20px;
+                font-size: 16px;
+                width: 100%;
+                margin: 5px 0 !important;
+            }
+            
+            .btn-ler {
+                margin-left: 0 !important;
+                margin-top: 10px !important;
+            }
+            
+            /* Container de pesquisa mobile */
+            .pesquisa-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .pesquisa-container input {
+                width: 100%;
+                min-width: auto;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .pesquisa-container select {
+                width: 100%;
+            }
+            
+            .pesquisa-container button {
+                width: 100%;
+            }
+            
+            /* Resultados de pesquisa */
+            .resultado-item {
+                padding: 15px 12px;
+            }
+            
+            .resultado-item strong {
+                font-size: 16px;
+            }
+            
+            .resultado-item .texto {
+                font-size: 15px;
+                line-height: 1.5;
+            }
+            
+            /* Capítulo container */
+            .capitulo-container {
+                padding: 15px 12px;
+            }
+            
+            .capitulo-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .capitulo-header h2 {
+                font-size: 20px;
+                width: 100%;
+            }
+            
+            .capitulo-nav {
+                width: 100%;
+                display: flex;
+                gap: 8px;
+            }
+            
+            .capitulo-nav button {
                 flex: 1;
+                padding: 12px;
+                font-size: 15px;
+            }
+            
+            /* Versículos mais legíveis */
+            .versiculo-lista {
+                font-size: 16px;
+                line-height: 1.7;
+            }
+            
+            .versiculo-item {
+                gap: 10px;
+                padding: 10px 0;
+            }
+            
+            .versiculo-numero {
+                min-width: 35px;
+                font-size: 14px;
+            }
+            
+            .versiculo-texto {
+                font-size: 16px;
+            }
+            
+            /* Destaque mobile */
+            .versiculo-destacado {
+                margin-left: -12px;
+                padding-left: 10px;
+            }
+            
+            /* Info e indicadores */
+            .info-pesquisa {
+                padding: 12px;
+                font-size: 14px;
+            }
+            
+            .indicador-versiculo {
+                font-size: 14px;
+                padding: 5px 12px;
+            }
+            
+            /* Mensagens de feedback */
+            .sucesso, .erro, .loading {
+                padding: 15px;
+                font-size: 15px;
+            }
+            
+            /* Versão info */
+            .versao {
+                font-size: 13px;
+                text-align: center;
+                margin-top: 15px;
+            }
+        }
+
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 400px) {
+            .tab {
+                font-size: 14px;
+                padding: 10px 5px;
+            }
+            
+            .capitulo-header h2 {
+                font-size: 18px;
+            }
+            
+            .versiculo-texto {
+                font-size: 15px;
+            }
+        }
+
+        /* Impede zoom em inputs no iOS */
+        @supports (-webkit-touch-callout: none) {
+            input, select, button {
+                font-size: 16px !important;
             }
         }
     </style>
@@ -312,12 +515,12 @@
             <div class="linha-controle">
                 <div class="grupo-campo">
                     <label>📖 Capítulo:</label>
-                    <input type="number" id="capitulo" class="campo-pequeno" value="1" min="1">
+                    <input type="number" id="capitulo" class="campo-pequeno" value="1" min="1" inputmode="numeric">
                 </div>
                 
                 <div class="grupo-campo">
                     <label>🔢 Versículo:</label>
-                    <input type="number" id="versiculo" class="campo-pequeno" value="" min="1" placeholder="Todos">
+                    <input type="number" id="versiculo" class="campo-pequeno" value="" min="1" placeholder="Todos" inputmode="numeric">
                     <span style="font-size: 12px; color: #888;">(opcional)</span>
                 </div>
                 
@@ -328,7 +531,7 @@
         <!-- Painel de Pesquisa -->
         <div id="painel-pesquisa" class="painel">
             <div class="pesquisa-container">
-                <input type="text" id="termoPesquisa" placeholder="Digite uma palavra ou frase...">
+                <input type="text" id="termoPesquisa" placeholder="Digite uma palavra ou frase..." inputmode="text">
                 <select id="filtroLivroPesquisa" style="min-width: 150px;">
                     <option value="todos">Todos os livros</option>
                 </select>
