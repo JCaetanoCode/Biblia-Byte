@@ -2,77 +2,956 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bíblia Byte - Múltiplas Versões com Pesquisa</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Bíblia Byte - Múltiplas Versões</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border: #e2e8f0;
+            --tag-bg: #dbeafe;
+            --tag-text: #1e40af;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --warning: #f59e0b;
+            --accent: #8b5cf6;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.04);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .header .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Card Principal */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        /* Abas */
+        .tab-container {
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 20px;
+            gap: 4px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-radius: var(--radius) var(--radius) 0 0;
+            transition: all var(--transition);
+            position: relative;
+        }
+
+        .tab:hover {
+            color: var(--text);
+            background: #f1f5f9;
+        }
+
+        .tab.ativo {
+            color: var(--primary);
+            background: var(--card);
+        }
+
+        .tab.ativo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .painel {
+            display: none;
+        }
+
+        .painel.ativo {
+            display: block;
+        }
+
+        /* Campos */
+        .linha-controle {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .grupo-campo {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .grupo-campo label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .campo-pequeno {
+            width: 90px;
+            padding: 10px 12px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            transition: all var(--transition);
+            text-align: center;
+        }
+
+        .campo-medio {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            transition: all var(--transition);
+        }
+
+        select {
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .campo-pequeno:focus,
+        .campo-medio:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Botões */
+        .btn {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #15803d;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-accent:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+        /* Pesquisa Container */
+        .pesquisa-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .pesquisa-container .grupo-campo {
+            flex: 2;
+            min-width: 200px;
+        }
+
+        .pesquisa-container .grupo-campo-curto {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        /* Resultados */
+        .resultados-pesquisa {
+            margin-top: 16px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .resultado-item {
+            background: var(--card);
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .resultado-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .resultado-item strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+
+        .resultado-item .texto {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .resultado-item .referencia {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .highlight {
+            background-color: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        /* Capítulo */
+        .capitulo-container {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .capitulo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .capitulo-header h2 {
+            color: var(--text);
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .capitulo-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .versiculo-lista {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .versiculo-item {
+            display: flex;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background var(--transition);
+            border-radius: 4px;
+        }
+
+        .versiculo-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .versiculo-numero {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 36px;
+            text-align: right;
+            font-size: 0.85rem;
+            padding-top: 3px;
+        }
+
+        .versiculo-texto {
+            flex: 1;
+            color: var(--text);
+        }
+
+        .versiculo-destacado {
+            background-color: #fef3c7 !important;
+            border-left: 4px solid var(--warning);
+            padding-left: 14px;
+            margin-left: -10px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .versiculo-destacado .versiculo-numero {
+            color: #d97706;
+            font-weight: 800;
+        }
+
+        .versao-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 16px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Info / Status */
+        .info-pesquisa {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .indicador-versiculo {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .msg-sucesso {
+            background: var(--success-bg);
+            color: var(--success);
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .msg-erro {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+
+        .msg-loading {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 12px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px 8px;
+                font-size: 0.9rem;
+            }
+
+            .linha-controle {
+                flex-direction: column;
+            }
+
+            .grupo-campo {
+                width: 100%;
+            }
+
+            .campo-pequeno {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .pesquisa-container {
+                flex-direction: column;
+            }
+
+            .pesquisa-container .grupo-campo,
+            .pesquisa-container .grupo-campo-curto {
+                width: 100%;
+            }
+
+            .capitulo-container {
+                padding: 16px 12px;
+            }
+
+            .capitulo-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .capitulo-nav {
+                width: 100%;
+            }
+
+            .capitulo-nav .btn {
+                flex: 1;
+            }
+
+            .versiculo-lista {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>📖 Bíblia Byte</h1>
+            <p class="subtitle">Pesquise nas versões ACF, AA e NVI - Antigo e Novo Testamento</p>
+        </header>
 
-    <h1>📖 Bíblia Byte</h1>
-
-    <div class="controles">
-        <div class="linha-controle">
-            <div class="grupo-campo">
-                <label>📚 Versão:</label>
-                <select id="versao" class="campo-medio">
-                    <option value="acf">ACF (Almeida Corrigida Fiel)</option>
-                    <option value="aa">AA (Almeida Revista)</option>
-                    <option value="nvi">NVI (Nova Versão Internacional)</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Abas de navegação -->
-        <div class="tab-container">
-            <button class="tab ativo" onclick="mudarAba('leitura')">📖 Leitura</button>
-            <button class="tab" onclick="mudarAba('pesquisa')">🔍 Pesquisa</button>
-        </div>
-
-        <!-- Painel de Leitura -->
-        <div id="painel-leitura" class="painel ativo">
+        <div class="card">
+            <!-- Seletor de Versão -->
             <div class="linha-controle">
-                <div class="grupo-campo">
-                    <label>📚 Livro:</label>
-                    <select id="livro" class="campo-medio"></select>
+                <div class="grupo-campo" style="max-width: 300px;">
+                    <label>📚 Versão da Bíblia</label>
+                    <select id="versao" class="campo-medio">
+                        <option value="acf">ACF (Almeida Corrigida Fiel)</option>
+                        <option value="aa">AA (Almeida Revista)</option>
+                        <option value="nvi">NVI (Nova Versão Internacional)</option>
+                    </select>
                 </div>
             </div>
-            
-            <div class="linha-controle">
-                <div class="grupo-campo">
-                    <label>📖 Capítulo:</label>
-                    <input type="number" id="capitulo" class="campo-pequeno" value="1" min="1" inputmode="numeric">
+
+            <!-- Abas -->
+            <div class="tab-container">
+                <button class="tab ativo" onclick="mudarAba('leitura')">📖 Leitura</button>
+                <button class="tab" onclick="mudarAba('pesquisa')">🔍 Pesquisa</button>
+            </div>
+
+            <!-- Painel Leitura -->
+            <div id="painel-leitura" class="painel ativo">
+                <div class="linha-controle">
+                    <div class="grupo-campo">
+                        <label>📖 Livro</label>
+                        <select id="livro" class="campo-medio"></select>
+                    </div>
                 </div>
-                
-                <div class="grupo-campo">
-                    <label>🔢 Versículo:</label>
-                    <input type="number" id="versiculo" class="campo-pequeno" value="" min="1" placeholder="Todos" inputmode="numeric">
-                    <span style="font-size: 12px; color: #888;">(opcional)</span>
+
+                <div class="linha-controle">
+                    <div class="grupo-campo" style="flex: 0 0 auto; min-width: 100px;">
+                        <label>📖 Capítulo</label>
+                        <input type="number" id="capitulo" class="campo-pequeno" value="1" min="1" inputmode="numeric">
+                    </div>
+
+                    <div class="grupo-campo" style="flex: 0 0 auto; min-width: 100px;">
+                        <label>🔢 Versículo</label>
+                        <input type="number" id="versiculo" class="campo-pequeno" value="" min="1" placeholder="Todos" inputmode="numeric">
+                    </div>
+
+                    <div class="grupo-campo" style="flex: 0 0 auto; min-width: auto;">
+                        <label style="visibility: hidden;">.</label>
+                        <button class="btn btn-success" onclick="buscarCapitulo()">📖 Ler Capítulo</button>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Painel Pesquisa -->
+            <div id="painel-pesquisa" class="painel">
+
                 
-                <button class="btn-ler" onclick="buscarCapitulo()">📖 Ler Capítulo</button>
+
+
+                <div class="pesquisa-container">
+    <div class="grupo-campo">
+        <label>🔍 Palavra ou frase</label>
+        <input type="text" id="termoPesquisa" class="campo-medio" placeholder="Digite para pesquisar..." inputmode="text">
+    </div>
+
+    <div class="grupo-campo-curto">
+        <label>📖 Livro</label>
+        <select id="filtroLivroPesquisa" class="campo-medio">
+            <option value="todos">Todos os livros</option>
+        </select>
+    </div>
+
+    <div class="grupo-campo-curto">
+        <label>⚙️ Tipo</label>
+        <select id="tipoPesquisa" class="campo-medio">
+            <option value="contains">Contém</option>
+            <option value="exact">Palavra Exata</option>
+            <option value="startsWith">Começa com</option>
+            <option value="endsWith">Termina com</option>
+        </select>
+    </div>
+</div>
+
+                <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="executarPesquisa()">🔍 Pesquisar</button>
+                    <button class="btn btn-secondary" onclick="limparPesquisa()">🗑️ Limpar</button>
+                    <button class="btn btn-accent" onclick="window.location.href='https://jcaetanocode.github.io/buscador/'">🔎 Pesquisa Avançada</button>
+                </div>
+
+                <div id="resultadosPesquisa" class="resultados-pesquisa">
+                    <div class="info-pesquisa">Digite um termo e clique em Pesquisar</div>
+                </div>
             </div>
         </div>
 
-        <!-- Painel de Pesquisa -->
-        <div id="painel-pesquisa" class="painel">
-            <div class="pesquisa-container">
-                <input type="text" id="termoPesquisa" placeholder="Digite uma palavra ou frase..." inputmode="text">
-                <select id="filtroLivroPesquisa" style="min-width: 150px;">
-                    <option value="todos">Todos os livros</option>
-                </select>
-                <button onclick="executarPesquisa()">🔍 Pesquisar</button>
-                <button onclick="limparPesquisa()" style="background: #95a5a6;">🗑️ Limpar</button>
-            </div>
-            <div id="resultadosPesquisa" class="resultados-pesquisa">
-                <div class="info-pesquisa">Digite um termo e clique em Pesquisar</div>
-            </div>
+        <!-- Resultados -->
+        <div id="resultado">
+            <div class="msg-loading">⏳ Selecione uma versão e clique em buscar...</div>
         </div>
     </div>
 
-    <div id="resultado">
-        <div class="loading">⏳ Selecione uma versão e clique em buscar...</div>
-    </div>
+    <script>
+        let bibliaAtual = null;
+        let versaoAtual = 'acf';
+        let resultadosAtuais = [];
+        let livroAtual = null;
+        let capituloAtual = 1;
 
-   <script src="script.js"></script>
+        function mudarAba(aba) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
+            event.target.classList.add('ativo');
+
+            document.querySelectorAll('.painel').forEach(p => p.classList.remove('ativo'));
+            document.getElementById(`painel-${aba}`).classList.add('ativo');
+
+            if (aba === 'pesquisa' && bibliaAtual) {
+                preencherFiltroLivros();
+            }
+        }
+
+        function carregarVersao(versao) {
+            document.getElementById('resultado').innerHTML = '<div class="msg-loading">⏳ Carregando ' + versao.toUpperCase() + '...</div>';
+
+            fetch(`${versao}.json`)
+                .then(resposta => {
+                    if (!resposta.ok) throw new Error(`Arquivo ${versao}.json não encontrado`);
+                    return resposta.json();
+                })
+                .then(dados => {
+                    bibliaAtual = dados;
+                    versaoAtual = versao;
+                    preencherListaLivros();
+                    preencherFiltroLivros();
+                    document.getElementById('resultado').innerHTML = '<div class="msg-sucesso">✅ ' + getNomeVersao(versao) + ' carregada! Selecione um livro e capítulo.</div>';
+                })
+                .catch(erro => {
+                    document.getElementById('resultado').innerHTML = `<div class="msg-erro">❌ Erro ao carregar ${versao}.json</div>`;
+                    bibliaAtual = null;
+                });
+        }
+
+        function getNomeVersao(versao) {
+            const nomes = { 'acf': 'ACF', 'aa': 'AA', 'nvi': 'NVI' };
+            return nomes[versao] || versao.toUpperCase();
+        }
+
+        function preencherListaLivros() {
+            if (!bibliaAtual) return;
+            const selectLivro = document.getElementById('livro');
+            selectLivro.innerHTML = '';
+            bibliaAtual.forEach((livro, indice) => {
+                const option = document.createElement('option');
+                option.value = indice;
+                option.textContent = livro.nome || livro.name || livro.book || `Livro ${indice + 1}`;
+                selectLivro.appendChild(option);
+            });
+        }
+
+        function preencherFiltroLivros() {
+            if (!bibliaAtual) return;
+            const filtroLivro = document.getElementById('filtroLivroPesquisa');
+            filtroLivro.innerHTML = '<option value="todos">Todos os livros</option>';
+            bibliaAtual.forEach((livro, indice) => {
+                const option = document.createElement('option');
+                option.value = indice;
+                option.textContent = livro.nome || livro.name || livro.book || `Livro ${indice + 1}`;
+                filtroLivro.appendChild(option);
+            });
+        }
+
+        function buscarCapitulo() {
+            if (!bibliaAtual) {
+                document.getElementById('resultado').innerHTML = '<div class="msg-erro">⏳ Carregue uma versão primeiro.</div>';
+                return;
+            }
+
+            const indiceLivro = parseInt(document.getElementById('livro').value);
+            const capitulo = parseInt(document.getElementById('capitulo').value);
+            const versiculoInput = document.getElementById('versiculo').value;
+            const versiculoDestaque = versiculoInput ? parseInt(versiculoInput) : null;
+
+            const livro = bibliaAtual[indiceLivro];
+            if (!livro) {
+                document.getElementById('resultado').innerHTML = '<div class="msg-erro">Livro não encontrado.</div>';
+                return;
+            }
+
+            livroAtual = livro;
+            capituloAtual = capitulo;
+
+            const nomeLivro = livro.nome || livro.name || livro.book;
+            const capitulos = livro.capitulos || livro.chapters;
+
+            if (!capitulos || capitulo > capitulos.length || capitulo < 1) {
+                document.getElementById('resultado').innerHTML = `<div class="msg-erro">O livro ${nomeLivro} não possui o capítulo ${capitulo}.</div>`;
+                return;
+            }
+
+            const versiculos = capitulos[capitulo - 1];
+            if (!versiculos || versiculos.length === 0) {
+                document.getElementById('resultado').innerHTML = `<div class="msg-erro">O capítulo ${capitulo} de ${nomeLivro} está vazio.</div>`;
+                return;
+            }
+
+            if (versiculoDestaque && (versiculoDestaque > versiculos.length || versiculoDestaque < 1)) {
+                document.getElementById('resultado').innerHTML = `<div class="msg-erro">O capítulo ${capitulo} de ${nomeLivro} possui apenas ${versiculos.length} versículo(s).</div>`;
+                return;
+            }
+
+            exibirCapitulo(nomeLivro, capitulo, versiculos, versiculoDestaque);
+        }
+
+        function exibirCapitulo(nomeLivro, capitulo, versiculos, versiculoDestaque = null) {
+            const totalCapitulos = livroAtual.capitulos?.length || livroAtual.chapters?.length || 1;
+
+            let html = `
+                <div class="capitulo-container">
+                    <div class="capitulo-header">
+                        <h2>${nomeLivro} ${capitulo}</h2>
+                        <div class="capitulo-nav">
+                            <button class="btn btn-secondary" onclick="navegarCapitulo(-1)" ${capitulo <= 1 ? 'disabled' : ''}>← Anterior</button>
+                            <button class="btn btn-secondary" onclick="navegarCapitulo(1)" ${capitulo >= totalCapitulos ? 'disabled' : ''}>Próximo →</button>
+                        </div>
+                    </div>
+            `;
+
+            if (versiculoDestaque) {
+                html += `<div class="info-pesquisa">📌 <span class="indicador-versiculo">Versículo ${versiculoDestaque} destacado</span></div>`;
+            }
+
+            html += `<div class="versiculo-lista">`;
+
+            versiculos.forEach((texto, indice) => {
+                const numeroVersiculo = indice + 1;
+                const isDestacado = versiculoDestaque === numeroVersiculo;
+                const classeDestacado = isDestacado ? 'versiculo-destacado' : '';
+
+                html += `
+                    <div class="versiculo-item ${classeDestacado}" id="v${numeroVersiculo}">
+                        <span class="versiculo-numero">${numeroVersiculo}</span>
+                        <span class="versiculo-texto">${texto}</span>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <div class="versao-info">${getNomeVersao(versaoAtual)}</div>
+                </div>
+            `;
+
+            document.getElementById('resultado').innerHTML = html;
+
+            if (versiculoDestaque) {
+                setTimeout(() => {
+                    const elemento = document.getElementById(`v${versiculoDestaque}`);
+                    if (elemento) elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
+        }
+
+        function navegarCapitulo(direcao) {
+            const novoCapitulo = capituloAtual + direcao;
+            document.getElementById('capitulo').value = novoCapitulo;
+            document.getElementById('versiculo').value = '';
+            buscarCapitulo();
+        }
+
+        function executarPesquisa() {
+            if (!bibliaAtual) { alert('Carregue uma versão primeiro!'); return; }
+
+            const termo = document.getElementById('termoPesquisa').value.trim();
+            if (termo.length < 2) { alert('Digite pelo menos 2 caracteres'); return; }
+
+            const filtroLivro = document.getElementById('filtroLivroPesquisa').value;
+            const tipoPesquisa = document.getElementById('tipoPesquisa').value;
+            document.getElementById('resultadosPesquisa').innerHTML = '<div class="msg-loading">🔍 Pesquisando...</div>';
+
+            setTimeout(() => {
+               const dados = pesquisarNaBiblia(termo, filtroLivro, tipoPesquisa);
+exibirResultadosPesquisa(dados, termo);
+            }, 10);
+        }
+
+       function pesquisarNaBiblia(termo, filtroLivro, tipoPesquisa) {
+    const resultados = [];
+    const termoLower = termo.toLowerCase();
+
+    const escaped = termoLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    const contagemPorLivro = {};
+
+    bibliaAtual.forEach((livro, indiceLivro) => {
+        if (filtroLivro !== 'todos' && parseInt(filtroLivro) !== indiceLivro) return;
+
+        const nomeLivro = livro.nome || livro.name || livro.book;
+        const capitulos = livro.capitulos || livro.chapters;
+        if (!capitulos) return;
+
+        capitulos.forEach((versiculos, indiceCapitulo) => {
+            if (!versiculos) return;
+
+            versiculos.forEach((texto, indiceVersiculo) => {
+                if (!texto) return;
+
+                let match = false;
+
+                switch (tipoPesquisa) {
+                    case 'contains':
+                        match = texto.toLowerCase().includes(termoLower);
+                        break;
+
+                    case 'exact':
+                        match = new RegExp(`\\b${escaped}\\b`, 'i').test(texto);
+                        break;
+
+                    case 'startsWith':
+                        match = new RegExp(`\\b${escaped}`, 'i').test(texto);
+                        break;
+
+                    case 'endsWith':
+                        match = new RegExp(`${escaped}\\b`, 'i').test(texto);
+                        break;
+                }
+
+                if (match) {
+                    resultados.push({
+                        livro: nomeLivro,
+                        indiceLivro: indiceLivro,
+                        capitulo: indiceCapitulo + 1,
+                        versiculo: indiceVersiculo + 1,
+                        texto: texto,
+                        termo: termo
+                    });
+
+                    // 📊 Contagem por livro
+                    contagemPorLivro[nomeLivro] = (contagemPorLivro[nomeLivro] || 0) + 1;
+                }
+            });
+        });
+    });
+
+    return {
+        resultados,
+        contagemPorLivro
+    };
+}
+
+       function exibirResultadosPesquisa(dados, termo) {
+    const container = document.getElementById('resultadosPesquisa');
+
+    const resultados = dados.resultados;
+    const contagem = dados.contagemPorLivro;
+
+    if (resultados.length === 0) {
+        container.innerHTML = `<div class="info-pesquisa">😕 Nenhum resultado para "${termo}"</div>`;
+        return;
+    }
+
+    let html = `<div class="info-pesquisa">📊 ${resultados.length} ocorrência(s) para "${termo}"</div>`;
+
+    // 📚 Estatística por livro
+    const livrosOrdenados = Object.entries(contagem)
+        .sort((a, b) => b[1] - a[1]);
+
+    html += `<div class="book-stats" style="margin-bottom:15px;">
+                <strong>📚 Ocorrências por livro:</strong>
+                <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">`;
+
+    livrosOrdenados.forEach(([livro, qtd]) => {
+        html += `<span style="
+            background:#dbeafe;
+            color:#1e40af;
+            padding:5px 10px;
+            border-radius:20px;
+            font-size:0.85em;">
+            ${livro} (${qtd})
+        </span>`;
+    });
+
+    html += `</div></div>`;
+
+    // 🔎 Resultados
+    const resultadosLimitados = resultados.slice(0, 100);
+
+    resultadosLimitados.forEach((res) => {
+        const textoDestacado = destacarTermo(res.texto, termo);
+
+        html += `
+            <div class="resultado-item" onclick="irParaCapituloComDestaque(${res.indiceLivro}, ${res.capitulo}, ${res.versiculo})">
+                <strong>${res.livro} ${res.capitulo}:${res.versiculo}</strong>
+                <div class="texto">${textoDestacado}</div>
+                <div class="referencia">${getNomeVersao(versaoAtual)}</div>
+            </div>
+        `;
+    });
+
+    if (resultados.length > 100) {
+        html += `<div class="info-pesquisa">Mostrando 100 de ${resultados.length}</div>`;
+    }
+
+    container.innerHTML = html;
+}
+
+       function destacarTermo(texto, termo) {
+    const escaped = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    return texto.replace(regex, '<span class="highlight">$1</span>');
+}
+
+        function irParaCapituloComDestaque(indiceLivro, capitulo, versiculo) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
+            document.querySelectorAll('.tab')[0].classList.add('ativo');
+            document.querySelectorAll('.painel').forEach(p => p.classList.remove('ativo'));
+            document.getElementById('painel-leitura').classList.add('ativo');
+
+            document.getElementById('livro').value = indiceLivro;
+            document.getElementById('capitulo').value = capitulo;
+            document.getElementById('versiculo').value = versiculo;
+            buscarCapitulo();
+        }
+
+        function limparPesquisa() {
+            document.getElementById('termoPesquisa').value = '';
+            document.getElementById('filtroLivroPesquisa').value = 'todos';
+            document.getElementById('resultadosPesquisa').innerHTML = '<div class="info-pesquisa">Digite um termo e clique em Pesquisar</div>';
+            resultadosAtuais = [];
+        }
+
+        // Eventos
+        document.getElementById('versao').addEventListener('change', function() { carregarVersao(this.value); });
+        document.getElementById('termoPesquisa').addEventListener('keypress', function(e) { if (e.key === 'Enter') executarPesquisa(); });
+        document.getElementById('capitulo').addEventListener('keypress', function(e) { if (e.key === 'Enter') buscarCapitulo(); });
+        document.getElementById('versiculo').addEventListener('keypress', function(e) { if (e.key === 'Enter') buscarCapitulo(); });
+
+        // Iniciar
+        carregarVersao('acf');
+    </script>
 </body>
 </html>
