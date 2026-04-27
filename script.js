@@ -1,4 +1,26 @@
-         let bibliaAtual = null;
+    
+:root {
+    --bg: #faf7f2;  /* Bege Aveludado */
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-secondary: #64748b;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --border: #e2e8f0;
+    --tag-bg: #dbeafe;
+    --tag-text: #1e40af;
+    --success: #16a34a;
+    --success-bg: #dcfce7;
+    --warning: #f59e0b;
+    --accent: #8b5cf6;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.04);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.2s ease;
+}
+
+     let bibliaAtual = null;
         let versaoAtual = 'acf';
         let resultadosAtuais = [];
         let livroAtual = null;
