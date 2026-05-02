@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Bíblia Byte - Múltiplas Versões</title>
+    <title>Bíblia Byte - 13 Versões</title>
     <style>
         :root {
             --bg: #f8fafc;
@@ -26,11 +26,7 @@
             --transition: 0.2s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -46,7 +42,6 @@
             padding: 24px 20px;
         }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 28px;
@@ -65,7 +60,6 @@
             color: var(--text-secondary);
         }
 
-        /* Card Principal */
         .card {
             background: var(--card);
             border-radius: var(--radius);
@@ -75,7 +69,6 @@
             border: 1px solid var(--border);
         }
 
-        /* Abas */
         .tab-container {
             display: flex;
             border-bottom: 2px solid var(--border);
@@ -116,15 +109,9 @@
             background: var(--primary);
         }
 
-        .painel {
-            display: none;
-        }
+        .painel { display: none; }
+        .painel.ativo { display: block; }
 
-        .painel.ativo {
-            display: block;
-        }
-
-        /* Campos */
         .linha-controle {
             display: flex;
             flex-wrap: wrap;
@@ -184,14 +171,11 @@
             transition: all var(--transition);
         }
 
-        .campo-pequeno:focus,
-        .campo-medio:focus,
-        select:focus {
+        .campo-pequeno:focus, .campo-medio:focus, select:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        /* Botões */
         .btn {
             padding: 10px 20px;
             font-size: 0.95rem;
@@ -246,7 +230,6 @@
             transform: translateY(-1px);
         }
 
-        /* Pesquisa Container */
         .pesquisa-container {
             display: flex;
             flex-wrap: wrap;
@@ -264,7 +247,6 @@
             min-width: 140px;
         }
 
-        /* Resultados */
         .resultados-pesquisa {
             margin-top: 16px;
             max-height: 500px;
@@ -314,7 +296,6 @@
             color: #92400e;
         }
 
-        /* Capítulo */
         .capitulo-container {
             background: var(--card);
             border-radius: var(--radius);
@@ -399,7 +380,6 @@
             font-style: italic;
         }
 
-        /* Info / Status */
         .info-pesquisa {
             background: var(--tag-bg);
             color: var(--tag-text);
@@ -445,92 +425,51 @@
             text-align: center;
         }
 
-        /* Responsividade */
         @media (max-width: 600px) {
-            .container {
-                padding: 16px 12px;
-            }
-
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .card {
-                padding: 16px;
-            }
-
-            .tab {
-                flex: 1;
-                text-align: center;
-                padding: 12px 8px;
-                font-size: 0.9rem;
-            }
-
-            .linha-controle {
-                flex-direction: column;
-            }
-
-            .grupo-campo {
-                width: 100%;
-            }
-
-            .campo-pequeno {
-                width: 100%;
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            .pesquisa-container {
-                flex-direction: column;
-            }
-
-            .pesquisa-container .grupo-campo,
-            .pesquisa-container .grupo-campo-curto {
-                width: 100%;
-            }
-
-            .capitulo-container {
-                padding: 16px 12px;
-            }
-
-            .capitulo-header h2 {
-                font-size: 1.3rem;
-            }
-
-            .capitulo-nav {
-                width: 100%;
-            }
-
-            .capitulo-nav .btn {
-                flex: 1;
-            }
-
-            .versiculo-lista {
-                font-size: 0.95rem;
-            }
+            .container { padding: 16px 12px; }
+            .header h1 { font-size: 1.5rem; }
+            .card { padding: 16px; }
+            .tab { flex: 1; text-align: center; padding: 12px 8px; font-size: 0.9rem; }
+            .linha-controle { flex-direction: column; }
+            .grupo-campo { width: 100%; }
+            .campo-pequeno { width: 100%; }
+            .btn { width: 100%; text-align: center; }
+            .pesquisa-container { flex-direction: column; }
+            .pesquisa-container .grupo-campo, .pesquisa-container .grupo-campo-curto { width: 100%; }
+            .capitulo-container { padding: 16px 12px; }
+            .capitulo-header h2 { font-size: 1.3rem; }
+            .capitulo-nav { width: 100%; }
+            .capitulo-nav .btn { flex: 1; }
+            .versiculo-lista { font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <header class="header">
             <h1>📖 Bíblia Byte</h1>
-            <p class="subtitle">Pesquise nas versões ACF, AA e NVI - Antigo e Novo Testamento</p>
+            <p class="subtitle">13 Versões disponíveis - Antigo e Novo Testamento</p>
         </header>
 
         <div class="card">
             <!-- Seletor de Versão -->
             <div class="linha-controle">
-                <div class="grupo-campo" style="max-width: 300px;">
+                <div class="grupo-campo" style="max-width: 350px;">
                     <label>📚 Versão da Bíblia</label>
                     <select id="versao" class="campo-medio">
-                        <option value="acf">ACF (Almeida Corrigida Fiel)</option>
-                        <option value="aa">AA (Almeida Revista)</option>
-                        <option value="nvi">NVI (Nova Versão Internacional)</option>
+                        <option value="ACF">ACF (Almeida Corrigida Fiel)</option>
+                        <option value="ARA">ARA (Almeida Revista e Atualizada)</option>
+                        <option value="ARC">ARC (Almeida Revista e Corrigida)</option>
+                        <option value="AS21">AS21 (Almeida Século 21)</option>
+                        <option value="JFAA">JFAA (João Ferreira de Almeida Atualizada)</option>
+                        <option value="KJA">KJA (King James Atualizada)</option>
+                        <option value="KJF">KJF (King James Fiel)</option>
+                        <option value="NAA">NAA (Nova Almeida Atualizada)</option>
+                        <option value="NBV">NBV (Nova Bíblia Viva)</option>
+                        <option value="NTLH">NTLH (Nova Tradução na Linguagem de Hoje)</option>
+                        <option value="NVI">NVI (Nova Versão Internacional)</option>
+                        <option value="NVT">NVT (Nova Versão Transformadora)</option>
+                        <option value="TB">TB (Tradução Brasileira)</option>
                     </select>
                 </div>
             </div>
@@ -570,38 +509,33 @@
 
             <!-- Painel Pesquisa -->
             <div id="painel-pesquisa" class="painel">
-
-                
-
-
                 <div class="pesquisa-container">
-    <div class="grupo-campo">
-        <label>🔍 Palavra ou frase</label>
-        <input type="text" id="termoPesquisa" class="campo-medio" placeholder="Digite para pesquisar..." inputmode="text">
-    </div>
+                    <div class="grupo-campo">
+                        <label>🔍 Palavra ou frase</label>
+                        <input type="text" id="termoPesquisa" class="campo-medio" placeholder="Digite para pesquisar..." inputmode="text">
+                    </div>
 
-    <div class="grupo-campo-curto">
-        <label>📖 Livro</label>
-        <select id="filtroLivroPesquisa" class="campo-medio">
-            <option value="todos">Todos os livros</option>
-        </select>
-    </div>
+                    <div class="grupo-campo-curto">
+                        <label>📖 Livro</label>
+                        <select id="filtroLivroPesquisa" class="campo-medio">
+                            <option value="todos">Todos os livros</option>
+                        </select>
+                    </div>
 
-    <div class="grupo-campo-curto">
-        <label>⚙️ Tipo</label>
-        <select id="tipoPesquisa" class="campo-medio">
-            <option value="contains">Contém</option>
-            <option value="exact">Palavra Exata</option>
-            <option value="startsWith">Começa com</option>
-            <option value="endsWith">Termina com</option>
-        </select>
-    </div>
-</div>
+                    <div class="grupo-campo-curto">
+                        <label>⚙️ Tipo</label>
+                        <select id="tipoPesquisa" class="campo-medio">
+                            <option value="contains">Contém</option>
+                            <option value="exact">Palavra Exata</option>
+                            <option value="startsWith">Começa com</option>
+                            <option value="endsWith">Termina com</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
                     <button class="btn btn-primary" onclick="executarPesquisa()">🔍 Pesquisar</button>
                     <button class="btn btn-secondary" onclick="limparPesquisa()">🗑️ Limpar</button>
-                    <button class="btn btn-accent" onclick="window.location.href='https://jcaetanocode.github.io/buscador/'">🔎 Pesquisa Avançada</button>
                 </div>
 
                 <div id="resultadosPesquisa" class="resultados-pesquisa">
@@ -610,7 +544,6 @@
             </div>
         </div>
 
-        <!-- Resultados -->
         <div id="resultado">
             <div class="msg-loading">⏳ Selecione uma versão e clique em buscar...</div>
         </div>
@@ -618,10 +551,27 @@
 
     <script>
         let bibliaAtual = null;
-        let versaoAtual = 'acf';
+        let versaoAtual = 'ACF';
         let resultadosAtuais = [];
         let livroAtual = null;
         let capituloAtual = 1;
+
+        // Nomes completos das versões
+        const nomesVersoes = {
+            'ACF': 'Almeida Corrigida Fiel',
+            'ARA': 'Almeida Revista e Atualizada',
+            'ARC': 'Almeida Revista e Corrigida',
+            'AS21': 'Almeida Século 21',
+            'JFAA': 'João Ferreira de Almeida Atualizada',
+            'KJA': 'King James Atualizada',
+            'KJF': 'King James Fiel',
+            'NAA': 'Nova Almeida Atualizada',
+            'NBV': 'Nova Bíblia Viva',
+            'NTLH': 'Nova Tradução na Linguagem de Hoje',
+            'NVI': 'Nova Versão Internacional',
+            'NVT': 'Nova Versão Transformadora',
+            'TB': 'Tradução Brasileira'
+        };
 
         function mudarAba(aba) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
@@ -636,11 +586,12 @@
         }
 
         function carregarVersao(versao) {
-            document.getElementById('resultado').innerHTML = '<div class="msg-loading">⏳ Carregando ' + versao.toUpperCase() + '...</div>';
+            document.getElementById('resultado').innerHTML = '<div class="msg-loading">⏳ Carregando ' + getNomeVersao(versao) + '...</div>';
 
-            fetch(`${versao}.json`)
+            // Carrega da pasta "biblias/"
+            fetch(`biblias/${versao}.json`)
                 .then(resposta => {
-                    if (!resposta.ok) throw new Error(`Arquivo ${versao}.json não encontrado`);
+                    if (!resposta.ok) throw new Error(`Arquivo biblias/${versao}.json não encontrado`);
                     return resposta.json();
                 })
                 .then(dados => {
@@ -651,14 +602,13 @@
                     document.getElementById('resultado').innerHTML = '<div class="msg-sucesso">✅ ' + getNomeVersao(versao) + ' carregada! Selecione um livro e capítulo.</div>';
                 })
                 .catch(erro => {
-                    document.getElementById('resultado').innerHTML = `<div class="msg-erro">❌ Erro ao carregar ${versao}.json</div>`;
+                    document.getElementById('resultado').innerHTML = `<div class="msg-erro">❌ Erro ao carregar biblias/${versao}.json - Verifique se o arquivo existe na pasta "biblias/"</div>`;
                     bibliaAtual = null;
                 });
         }
 
         function getNomeVersao(versao) {
-            const nomes = { 'acf': 'ACF', 'aa': 'AA', 'nvi': 'NVI' };
-            return nomes[versao] || versao.toUpperCase();
+            return nomesVersoes[versao] || versao;
         }
 
         function preencherListaLivros() {
@@ -794,136 +744,115 @@
             document.getElementById('resultadosPesquisa').innerHTML = '<div class="msg-loading">🔍 Pesquisando...</div>';
 
             setTimeout(() => {
-               const dados = pesquisarNaBiblia(termo, filtroLivro, tipoPesquisa);
-exibirResultadosPesquisa(dados, termo);
+                const dados = pesquisarNaBiblia(termo, filtroLivro, tipoPesquisa);
+                exibirResultadosPesquisa(dados, termo);
             }, 10);
         }
 
-       function pesquisarNaBiblia(termo, filtroLivro, tipoPesquisa) {
-    const resultados = [];
-    const termoLower = termo.toLowerCase();
+        function pesquisarNaBiblia(termo, filtroLivro, tipoPesquisa) {
+            const resultados = [];
+            const termoLower = termo.toLowerCase();
+            const escaped = termoLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const contagemPorLivro = {};
 
-    const escaped = termoLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            bibliaAtual.forEach((livro, indiceLivro) => {
+                if (filtroLivro !== 'todos' && parseInt(filtroLivro) !== indiceLivro) return;
 
-    const contagemPorLivro = {};
+                const nomeLivro = livro.nome || livro.name || livro.book;
+                const capitulos = livro.capitulos || livro.chapters;
+                if (!capitulos) return;
 
-    bibliaAtual.forEach((livro, indiceLivro) => {
-        if (filtroLivro !== 'todos' && parseInt(filtroLivro) !== indiceLivro) return;
+                capitulos.forEach((versiculos, indiceCapitulo) => {
+                    if (!versiculos) return;
 
-        const nomeLivro = livro.nome || livro.name || livro.book;
-        const capitulos = livro.capitulos || livro.chapters;
-        if (!capitulos) return;
+                    versiculos.forEach((texto, indiceVersiculo) => {
+                        if (!texto) return;
 
-        capitulos.forEach((versiculos, indiceCapitulo) => {
-            if (!versiculos) return;
+                        let match = false;
 
-            versiculos.forEach((texto, indiceVersiculo) => {
-                if (!texto) return;
+                        switch (tipoPesquisa) {
+                            case 'contains':
+                                match = texto.toLowerCase().includes(termoLower);
+                                break;
+                            case 'exact':
+                                match = new RegExp(`\\b${escaped}\\b`, 'i').test(texto);
+                                break;
+                            case 'startsWith':
+                                match = new RegExp(`\\b${escaped}`, 'i').test(texto);
+                                break;
+                            case 'endsWith':
+                                match = new RegExp(`${escaped}\\b`, 'i').test(texto);
+                                break;
+                        }
 
-                let match = false;
+                        if (match) {
+                            resultados.push({
+                                livro: nomeLivro,
+                                indiceLivro: indiceLivro,
+                                capitulo: indiceCapitulo + 1,
+                                versiculo: indiceVersiculo + 1,
+                                texto: texto,
+                                termo: termo
+                            });
 
-                switch (tipoPesquisa) {
-                    case 'contains':
-                        match = texto.toLowerCase().includes(termoLower);
-                        break;
-
-                    case 'exact':
-                        match = new RegExp(`\\b${escaped}\\b`, 'i').test(texto);
-                        break;
-
-                    case 'startsWith':
-                        match = new RegExp(`\\b${escaped}`, 'i').test(texto);
-                        break;
-
-                    case 'endsWith':
-                        match = new RegExp(`${escaped}\\b`, 'i').test(texto);
-                        break;
-                }
-
-                if (match) {
-                    resultados.push({
-                        livro: nomeLivro,
-                        indiceLivro: indiceLivro,
-                        capitulo: indiceCapitulo + 1,
-                        versiculo: indiceVersiculo + 1,
-                        texto: texto,
-                        termo: termo
+                            contagemPorLivro[nomeLivro] = (contagemPorLivro[nomeLivro] || 0) + 1;
+                        }
                     });
-
-                    // 📊 Contagem por livro
-                    contagemPorLivro[nomeLivro] = (contagemPorLivro[nomeLivro] || 0) + 1;
-                }
+                });
             });
-        });
-    });
 
-    return {
-        resultados,
-        contagemPorLivro
-    };
-}
+            return { resultados, contagemPorLivro };
+        }
 
-       function exibirResultadosPesquisa(dados, termo) {
-    const container = document.getElementById('resultadosPesquisa');
+        function exibirResultadosPesquisa(dados, termo) {
+            const container = document.getElementById('resultadosPesquisa');
+            const resultados = dados.resultados;
+            const contagem = dados.contagemPorLivro;
 
-    const resultados = dados.resultados;
-    const contagem = dados.contagemPorLivro;
+            if (resultados.length === 0) {
+                container.innerHTML = `<div class="info-pesquisa">😕 Nenhum resultado para "${termo}"</div>`;
+                return;
+            }
 
-    if (resultados.length === 0) {
-        container.innerHTML = `<div class="info-pesquisa">😕 Nenhum resultado para "${termo}"</div>`;
-        return;
-    }
+            let html = `<div class="info-pesquisa">📊 ${resultados.length} ocorrência(s) para "${termo}"</div>`;
 
-    let html = `<div class="info-pesquisa">📊 ${resultados.length} ocorrência(s) para "${termo}"</div>`;
+            const livrosOrdenados = Object.entries(contagem).sort((a, b) => b[1] - a[1]);
 
-    // 📚 Estatística por livro
-    const livrosOrdenados = Object.entries(contagem)
-        .sort((a, b) => b[1] - a[1]);
+            html += `<div class="book-stats" style="margin-bottom:15px;">
+                        <strong>📚 Ocorrências por livro:</strong>
+                        <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">`;
 
-    html += `<div class="book-stats" style="margin-bottom:15px;">
-                <strong>📚 Ocorrências por livro:</strong>
-                <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">`;
+            livrosOrdenados.forEach(([livro, qtd]) => {
+                html += `<span style="background:#dbeafe; color:#1e40af; padding:5px 10px; border-radius:20px; font-size:0.85em;">${livro} (${qtd})</span>`;
+            });
 
-    livrosOrdenados.forEach(([livro, qtd]) => {
-        html += `<span style="
-            background:#dbeafe;
-            color:#1e40af;
-            padding:5px 10px;
-            border-radius:20px;
-            font-size:0.85em;">
-            ${livro} (${qtd})
-        </span>`;
-    });
+            html += `</div></div>`;
 
-    html += `</div></div>`;
+            const resultadosLimitados = resultados.slice(0, 100);
 
-    // 🔎 Resultados
-    const resultadosLimitados = resultados.slice(0, 100);
+            resultadosLimitados.forEach((res) => {
+                const textoDestacado = destacarTermo(res.texto, termo);
+                html += `
+                    <div class="resultado-item" onclick="irParaCapituloComDestaque(${res.indiceLivro}, ${res.capitulo}, ${res.versiculo})">
+                        <strong>${res.livro} ${res.capitulo}:${res.versiculo}</strong>
+                        <div class="texto">${textoDestacado}</div>
+                        <div class="referencia">${getNomeVersao(versaoAtual)}</div>
+                    </div>
+                `;
+            });
 
-    resultadosLimitados.forEach((res) => {
-        const textoDestacado = destacarTermo(res.texto, termo);
+            if (resultados.length > 100) {
+                html += `<div class="info-pesquisa">Mostrando 100 de ${resultados.length}</div>`;
+            }
 
-        html += `
-            <div class="resultado-item" onclick="irParaCapituloComDestaque(${res.indiceLivro}, ${res.capitulo}, ${res.versiculo})">
-                <strong>${res.livro} ${res.capitulo}:${res.versiculo}</strong>
-                <div class="texto">${textoDestacado}</div>
-                <div class="referencia">${getNomeVersao(versaoAtual)}</div>
-            </div>
-        `;
-    });
+            container.innerHTML = html;
+        }
 
-    if (resultados.length > 100) {
-        html += `<div class="info-pesquisa">Mostrando 100 de ${resultados.length}</div>`;
-    }
-
-    container.innerHTML = html;
-}
-
-       function destacarTermo(texto, termo) {
-    const escaped = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${escaped})`, 'gi');
-    return texto.replace(regex, '<span class="highlight">$1</span>');
-}
+        function destacarTermo(texto, termo) {
+            const escaped = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escaped})`, 'gi');
+            return texto.replace(regex, '<span class="highlight">$1</span>');
+        }
 
         function irParaCapituloComDestaque(indiceLivro, capitulo, versiculo) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
@@ -945,13 +874,21 @@ exibirResultadosPesquisa(dados, termo);
         }
 
         // Eventos
-        document.getElementById('versao').addEventListener('change', function() { carregarVersao(this.value); });
-        document.getElementById('termoPesquisa').addEventListener('keypress', function(e) { if (e.key === 'Enter') executarPesquisa(); });
-        document.getElementById('capitulo').addEventListener('keypress', function(e) { if (e.key === 'Enter') buscarCapitulo(); });
-        document.getElementById('versiculo').addEventListener('keypress', function(e) { if (e.key === 'Enter') buscarCapitulo(); });
+        document.getElementById('versao').addEventListener('change', function() {
+            carregarVersao(this.value);
+        });
+        document.getElementById('termoPesquisa').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') executarPesquisa();
+        });
+        document.getElementById('capitulo').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') buscarCapitulo();
+        });
+        document.getElementById('versiculo').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') buscarCapitulo();
+        });
 
-        // Iniciar
-        carregarVersao('acf');
+        // Iniciar com ACF
+        carregarVersao('ACF');
     </script>
 </body>
 </html>
